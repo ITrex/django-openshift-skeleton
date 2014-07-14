@@ -2,6 +2,8 @@
 # Django settings for OpenShift project.
 import imp, os
 
+# from project.settings import *
+
 PROJECT_DIR = os.path.dirname(os.path.realpath(__file__))
 
 DEBUG = bool(os.environ.get('DEBUG', False))
