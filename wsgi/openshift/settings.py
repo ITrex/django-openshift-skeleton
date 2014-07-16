@@ -14,9 +14,10 @@ TEMPLATE_DEBUG = DEBUG
 
 # os.environ['OPENSHIFT_MYSQL_DB_*'] variables can be used with databases created
 # with rhc cartridge add (see /README in this git repo)
-DATABASES = {
-    'default': {
-        # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'self.
+DATABASES = {}
+
+if os.environ.get('OPENSHIFT_MYSQL_DB_HOST'):
+    DATABASES['default'] = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'python',  # Or path to database file if using sqlite3.
         'USER': os.environ['OPENSHIFT_MYSQL_DB_USERNAME'],
@@ -24,7 +25,21 @@ DATABASES = {
         'HOST': os.environ['OPENSHIFT_MYSQL_DB_HOST'],
         'PORT': os.environ['OPENSHIFT_MYSQL_DB_PORT'],
     }
-}
+elif os.environ.get('OPENSHIFT_POSTRGRESQL_DB_HOST'):
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.postrgresql',
+        'NAME': 'python',  # Or path to database file if using sqlite3.
+        'USER': os.environ['OPENSHIFT_POSTRGRESQL_DB_USERNAME'],
+        'PASSWORD': os.environ['OPENSHIFT_POSTRGRESQL_DB_PASSWORD'],
+        'HOST': os.environ['OPENSHIFT_POSTRGRESQL_DB_HOST'],
+        'PORT': os.environ['OPENSHIFT_POSTRGRESQL_DB_PORT'],
+    }
+else:
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.environ['OPENSHIFT_DATA_DIR'] + '/sqlite.db',
+    }
+
 
 MEDIA_ROOT = os.environ.get('OPENSHIFT_DATA_DIR', '')
 # Absolute path to the directory static files should be collected to.
