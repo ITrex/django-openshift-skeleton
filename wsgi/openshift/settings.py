@@ -58,4 +58,11 @@ use_keys = openshiftlibs.openshift_secure(default_keys)
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = use_keys['SECRET_KEY']
 
-ALLOWED_HOSTS = [os.environ.get('HOSTNAME'),]
+
+ALLOWED_HOSTS = set(
+        [os.environ.get('HOSTNAME'),
+         os.environ.get('PUBLIC_HOSTNAME'),
+         os.environ.get('PUBLIC_HOSTNAME_OVERRIDE'),
+        '.prod.rhcloud.com'])
+
+ALLOWED_HOSTS = [host for host in ALLOWED_HOSTS if host]
