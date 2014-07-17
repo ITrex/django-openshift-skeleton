@@ -63,6 +63,8 @@ ALLOWED_HOSTS = set(
         [os.environ.get('HOSTNAME'),
          os.environ.get('PUBLIC_HOSTNAME'),
          os.environ.get('PUBLIC_HOSTNAME_OVERRIDE'),
+         os.environ.get('OPENSHIFT_GEAR_DNS'),
+         os.environ.get('OPENSHIFT_APP_DNS'),
         '.prod.rhcloud.com'])
 
 ALLOWED_HOSTS = [host for host in ALLOWED_HOSTS if host]
