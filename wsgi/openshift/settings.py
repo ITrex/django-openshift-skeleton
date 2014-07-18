@@ -11,6 +11,7 @@ if DEBUG:
         print("WARNING: The DEBUG environment is set to True.")
 
 TEMPLATE_DEBUG = DEBUG
+THUMBNAIL_DEBUG = DEBUG
 
 # os.environ['OPENSHIFT_MYSQL_DB_*'] variables can be used with databases created
 # with rhc cartridge add (see /README in this git repo)
@@ -41,7 +42,8 @@ else:
     }
 
 
-MEDIA_ROOT = os.environ.get('OPENSHIFT_DATA_DIR', '')
+MEDIA_ROOT = os.path.join(
+        os.environ['OPENSHIFT_DATA_DIR'], 'media')
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
@@ -68,3 +70,7 @@ ALLOWED_HOSTS = set(
         '.prod.rhcloud.com'])
 
 ALLOWED_HOSTS = [host for host in ALLOWED_HOSTS if host]
+
+STATICFILES_FINDERS = (
+        "django.contrib.staticfiles.finders.FileSystemFinder",
+        "django.contrib.staticfiles.finders.AppDirectoriesFinder")
