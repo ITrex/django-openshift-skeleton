@@ -8,7 +8,7 @@ PROJECT_DIR = os.path.dirname(os.path.realpath(__file__))
 
 DEBUG = bool(os.environ.get('DEBUG', False))
 if DEBUG:
-        print("WARNING: The DEBUG environment is set to True.")
+    print("WARNING: The DEBUG environment is set to True.")
 
 TEMPLATE_DEBUG = DEBUG
 THUMBNAIL_DEBUG = DEBUG
@@ -43,7 +43,7 @@ else:
 
 
 MEDIA_ROOT = os.path.join(
-        os.environ['OPENSHIFT_DATA_DIR'], 'media')
+    os.environ['OPENSHIFT_DATA_DIR'], 'media')
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
@@ -62,15 +62,20 @@ SECRET_KEY = use_keys['SECRET_KEY']
 
 
 ALLOWED_HOSTS = set(
-        [os.environ.get('HOSTNAME'),
-         os.environ.get('PUBLIC_HOSTNAME'),
-         os.environ.get('PUBLIC_HOSTNAME_OVERRIDE'),
-         os.environ.get('OPENSHIFT_GEAR_DNS'),
-         os.environ.get('OPENSHIFT_APP_DNS'),
-        '.prod.rhcloud.com'])
+    [os.environ.get('HOSTNAME'),
+     os.environ.get('PUBLIC_HOSTNAME'),
+     os.environ.get('PUBLIC_HOSTNAME_OVERRIDE'),
+     os.environ.get('OPENSHIFT_GEAR_DNS'),
+     os.environ.get('OPENSHIFT_APP_DNS'),
+    '.prod.rhcloud.com'])
 
 ALLOWED_HOSTS = [host for host in ALLOWED_HOSTS if host]
 
 STATICFILES_FINDERS = (
-        "django.contrib.staticfiles.finders.FileSystemFinder",
-        "django.contrib.staticfiles.finders.AppDirectoriesFinder")
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder")
+
+
+if not DEBUG:
+    TEMPLATE_LOADERS = ((
+        'django.template.loaders.cached.Loader', TEMPLATE_LOADERS),)
