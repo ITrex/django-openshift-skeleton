@@ -9,7 +9,8 @@ source $OPENSHIFT_HOMEDIR/python/virtenv/bin/activate
 cd "$OPENSHIFT_REPO_DIR"src/
 
 if test -n "$OPENSHIFT_MYSQL_DB_URL"; then
-    mysqldump --verbose --all-databases --triggers --routines --events | gzip -c >  "$OPENSHIFT_DATA_DIR/mysqldump.sql.gz"
+    eval  $(echo $OPENSHIFT_MYSQL_DB_URL | sed 's/mysql:\/\/\(.*\):\(.*\)@\(.*\):\([0-9]*\)\//MYSQL_USER=\1\nMYSQL_PASSWORD=\2\nMYSQL_HOST=\3\nMYSQL_PORT=\4/')
+    mysqldump -u "$MYSQL_USER" -p"$MYSQL_PASSWORD" -h "$MYSQL_HOST" -P "$MYSQL_PORT" --verbose --all-databases --triggers --routines --events 2> "$OPENSHIFT_LOG_DIR/mysqldump.log" | gzip -c >  "$OPENSHIFT_DATA_DIR/mysqldump.sql.gz"
 else
     pushd "$OPENSHIFT_DATA_DIR"
     for elem in $(ls *.db); do
