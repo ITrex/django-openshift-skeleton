@@ -12,7 +12,7 @@ if test -n "$OPENSHIFT_MYSQL_DB_URL"; then
     mysqldump --verbose --all-databases --triggers --routines --events | gzip -c >  "$OPENSHIFT_DATA_DIR/mysqldump.sql.gz"
 else
     pushd "$OPENSHIFT_DATA_DIR"
-    for elem in $(ls "*.db"); do
+    for elem in $(ls *.db); do
         cp -v "$elem" "${elem}.bak"
     done
     popd
@@ -20,6 +20,6 @@ fi
 
 for directory in $(ls); do
     cd $directory
-    python setup.py install -f
+    python setup.py install -f >> "$OPENSHIFT_LOG_DIR/build_install.log"
     cd ..
 done
