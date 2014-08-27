@@ -18,7 +18,7 @@ else
 fi
 
 echo "Executing 'python $OPENSHIFT_REPO_DIR/wsgi/openshift/manage.py collectstatic --noinput'"
-python "$OPENSHIFT_REPO_DIR"wsgi/openshift/manage.py collectstatic --noinput
+python "$OPENSHIFT_REPO_DIR"wsgi/openshift/manage.py collectstatic --noinput > "$OPENSHIFT_LOG_DIR/collectstatic.log"
 
 if [ ! -d "$OPENSHIFT_DATA_DIR/media" ]; then
     mkdir -p "$OPENSHIFT_DATA_DIR/media"
