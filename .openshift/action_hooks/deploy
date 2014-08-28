@@ -25,3 +25,7 @@ if [ ! -d "$OPENSHIFT_DATA_DIR/media" ]; then
 fi
 
 ln -sf "$OPENSHIFT_DATA_DIR/media" "$OPENSHIFT_REPO_DIR/wsgi/static/media"
+
+echo "Stopping maintenance web server."
+kill -9 `cat ${OPENSHIFT_DATA_DIR}/maintenance.pid`
+rm "${OPENSHIFT_DATA_DIR}/maintenance.pid"

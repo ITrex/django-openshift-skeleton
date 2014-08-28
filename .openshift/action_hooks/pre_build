@@ -6,6 +6,12 @@
 
 source $OPENSHIFT_HOMEDIR/python/virtenv/bin/activate
 
+pushd "$OPENSHIFT_REPO_DIR/maintanance/"
+echo "Starting maintenance web server."
+nohup python ${OPENSHIFT_REPO_DIR}/maintenance/maintenance.py > ${OPENSHIFT_TMP_DIR}/nohup.out 2>&1&
+echo $! > ${OPENSHIFT_DATA_DIR}/maintenance.pid
+popd
+
 cd "$OPENSHIFT_REPO_DIR"src/
 
 if test -n "$OPENSHIFT_MYSQL_DB_URL"; then
